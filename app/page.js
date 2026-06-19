@@ -26,8 +26,17 @@ export default function Home() {
       if (!response.ok) throw new Error("Failed to process receipt");
 
       const result = await response.json();
-      // Format the result for the user
-      setResult(JSON.stringify(result.data, null, 2));
+      
+      // Parse the JSON data into a clean, readable text format
+      if (result.data?.readResult?.blocks) {
+        const extractedText = result.data.readResult.blocks
+          .map(block => block.lines.map(line => line.text).join('\n')) // Use \n here
+          .join('\n\n'); // Use double \n for block spacing
+        setResult(extractedText);
+      } else {
+        setResult("No text detected or invalid response format.");
+      }
+      
     } catch (error) {
       setResult("Error: " + error.message);
     } finally {
@@ -54,7 +63,9 @@ export default function Home() {
 
       <div style={{ marginTop: '30px', backgroundColor: '#f9fafb', padding: '20px', borderRadius: '8px' }}>
         <h3 style={{ marginTop: '0' }}>Extracted Data</h3>
-        <pre style={{ whiteSpace: 'pre-wrap', color: '#374151' }}>{result || "Your AI output will appear here..."}</pre>
+        <pre style={{ whiteSpace: 'pre-wrap', color: '#374151', fontSize: '14px' }}>
+          {result || "Your AI output will appear here..."}
+        </pre>
       </div>
     </main>
   );
