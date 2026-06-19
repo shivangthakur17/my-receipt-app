@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  output: 'standalone', // This tells Next.js to build a compact deployment folder
 };
 
 export default nextConfig;
