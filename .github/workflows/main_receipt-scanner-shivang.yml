@@ -62,5 +62,5 @@ jobs:
         with:
           app-name: 'receipt-scanner-shivang'
           slot-name: 'Production'
-          package: ./my-receipt-app
+          package: ./my-receipt-app # This tells Azure to deploy ONLY this folder
           
