@@ -57,10 +57,8 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_EFD30BF4F91243B5817AE3D0D3C9B22B }}
 
       - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'receipt-scanner-shivang'
           slot-name: 'Production'
-          package: ./my-receipt-app # This tells Azure to deploy ONLY this folder
-          
+          package: ./my-receipt-app
