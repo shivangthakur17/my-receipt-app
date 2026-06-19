@@ -12,13 +12,27 @@ export default function Home() {
       return;
     }
     setLoading(true);
-    setResult("Analyzing your receipt with AI...");
-    
-    // Simulate AI processing for the demo
-    setTimeout(() => {
-        setResult("AI Detected: \n- Date: 2026-06-19 \n- Merchant: Local Market \n- Total: $45.20 \nStatus: Successfully saved to Cloud Storage.");
-        setLoading(false);
-    }, 2500);
+    setResult("Uploading and processing with AI...");
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error("Failed to process receipt");
+
+      const result = await response.json();
+      // Format the result for the user
+      setResult(JSON.stringify(result.data, null, 2));
+    } catch (error) {
+      setResult("Error: " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
