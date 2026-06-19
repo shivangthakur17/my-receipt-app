@@ -23,12 +23,12 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: Debug and Install
+      - name: npm install, build, and test
         run: |
-          ls -R  # This will list all files in the root so we can see where your folder is
-          cd my-receipt-app || cd my-receipt-app # Adjust this if you find a different folder name
+          cd my-receipt-app
           npm install
           npm run build --if-present
+          npm run test --if-present
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -57,6 +57,7 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_EFD30BF4F91243B5817AE3D0D3C9B22B }}
 
       - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'receipt-scanner-shivang'
